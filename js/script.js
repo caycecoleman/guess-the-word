@@ -14,8 +14,8 @@ let remainingGuesses = 8;
 
 //Async function//
 const getWord = async function () {
-    const res = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
-    const words = await res.text();
+    const response = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    const words = await response.text();
     const wordArray = words.split("\n");
     const randomIndex = Math.floor(Math.random() * wordArray.length);
     word = wordArray[randomIndex].trim();
@@ -124,5 +124,32 @@ const winOrLose = function() {
     if (word.toUpperCase() === wordInProgress.innerText) {
         message.classList.add("win");
         message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
+
+        startOver();
     }
 };
+
+//Hide letters and guesses displayed on site, add play again button//
+const startOver = function() {
+    guessedLettersButton.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    remainingGuessesElement.classList.add("hide");
+    playAgainButton.classList.remove("hide");
+};
+
+//Get play button to work//
+playAgainButton.addEventListener("click", function () {
+    message.classList.remove("win");
+    message.innerText = "";
+    guessedLettersElement.innerHTML = "";
+    guessedLetters = [];
+    remainingGuesses = 8;
+    remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+
+    getWord();
+
+    guessedLettersButton.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    remainingGuessesElement.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+});
