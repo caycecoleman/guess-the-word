@@ -40,13 +40,14 @@ guessedLettersButton.addEventListener("click", function(e) {
     e.preventDefault();
 
     const guess = letterInput.value;
-    letterInput.value ="";
+    
     message.innerText ="";
     
     const goodGuess = playerInput(guess);
     if (goodGuess) {
         makeGuess(guess);
     }
+    letterInput.value ="";
 });
 
 //Check player's input//
@@ -105,13 +106,14 @@ const updatedWordInProgress = function(guessedLetters) {
 const updatedGuessingRemaining= function (guess) {
     const upperWord = word.toUpperCase();
     if (!upperWord.includes(guess)) {
-        message.innerText = `Sorry, the word does not have a ${guess}`;
+        message.innerText = `Sorry, the word does not have the letter ${guess}`;
         remainingGuesses -= 1;
     } else {
-        message.innerText = `Yay, the word has a ${guess}`;
+        message.innerText = `Yay, the word has the letter ${guess}`;
     }
     if (remainingGuesses === 0) {
         message.innerHTML = `Oh no! Game over. The word was <span class="highlight">${word}</span>.`;
+        startOver();
     } else if (remainingGuesses === 1) {
         remainingGuessesSpan.innerText = `${remainingGuesses} guess left`;
     } else {
